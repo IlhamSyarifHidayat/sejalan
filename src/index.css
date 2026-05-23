@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #FFF9FB;
+}
+
+html.dark body {
+  background: #140D23;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@layer base {
+  :root {
+    --background: 340 100% 99%;
+    --foreground: 264 26% 19%;
+    --card: 0 0% 100%;
+    --card-foreground: 264 26% 19%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 264 26% 19%;
+    --primary: 327 65% 70%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 268 38% 70%;
+    --secondary-foreground: 264 26% 19%;
+    --muted: 320 30% 96%;
+    --muted-foreground: 263 16% 47%;
+    --accent: 350 100% 80%;
+    --accent-foreground: 264 26% 19%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 320 30% 92%;
+    --input: 320 30% 92%;
+    --ring: 327 65% 70%;
+    --radius: 1rem;
+  }
+  .dark {
+    --background: 264 47% 9%;
+    --foreground: 280 80% 96%;
+    --card: 264 47% 12%;
+    --card-foreground: 280 80% 96%;
+    --popover: 264 47% 12%;
+    --popover-foreground: 280 80% 96%;
+    --primary: 350 100% 80%;
+    --primary-foreground: 264 26% 19%;
+    --secondary: 268 50% 70%;
+    --secondary-foreground: 264 26% 19%;
+    --muted: 264 30% 18%;
+    --muted-foreground: 264 16% 70%;
+    --accent: 327 65% 70%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 264 30% 22%;
+    --input: 264 30% 22%;
+    --ring: 350 100% 80%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+  [data-debug-wrapper="true"] > * {
+    margin-left: inherit;
+    margin-right: inherit;
+    margin-top: inherit;
+    margin-bottom: inherit;
+    padding-left: inherit;
+    padding-right: inherit;
+    padding-top: inherit;
+    padding-bottom: inherit;
+    column-gap: inherit;
+    row-gap: inherit;
+    gap: inherit;
+    border-left-width: inherit;
+    border-right-width: inherit;
+    border-top-width: inherit;
+    border-bottom-width: inherit;
+    border-left-style: inherit;
+    border-right-style: inherit;
+    border-top-style: inherit;
+    border-bottom-style: inherit;
+    border-left-color: inherit;
+    border-right-color: inherit;
+    border-top-color: inherit;
+    border-bottom-color: inherit;
+  }
+}
