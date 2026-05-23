@@ -6,7 +6,7 @@ import Sparkles from "../components/Sparkles";
 import { Shield, Lock, CloudIcon, Heart, ArrowRight } from "lucide-react";
 
 const HERO_IMG =
-  "https://customer-assets.emergentagent.com/job_251be368-c987-4946-8cfb-bb030166bb99/artifacts/8us5yzo9_Desain%20Ui%20Halaman%20Awal.png";
+  "https://vgqlvmuyhvxnqyihsnge.supabase.co/storage/v1/object/public/sejalan-photos/ILHAM_LISNA/ChatGPT%20Image%2023%20Mei%202026,%2008.40.26.png";
 
 const FeatureCard = ({ icon, title, desc, testId }) => (
   <div

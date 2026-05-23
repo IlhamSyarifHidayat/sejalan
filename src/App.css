@@ -336,3 +336,10 @@
 
 /* Hide scrollbar but allow scroll */
 .sj-app::-webkit-scrollbar { width: 0; }
+
+#emergent-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
