@@ -5,6 +5,7 @@ import FloatingHearts from "../components/FloatingHearts";
 import ThemeToggle from "../components/ThemeToggle";
 import { useSejalan } from "../context/SejalanContext";
 import { supabase, isSupabaseReady } from "../lib/supabase";
+import { formatAnniversaryDate } from "../utils/anniversary";
 import {
   Images,
   Calendar,
@@ -98,14 +99,15 @@ const Dashboard = () => {
 
   // Anniversary countdown (must be above early returns)
   const countdown = useMemo(() => {
-    const start = new Date("2026-04-12T00:00:00");
+    if (!room?.anniversary_date) return "Belum diatur";
+    const start = new Date(room?.anniversary_date);
     const diffMs = Math.abs(new Date() - start);
     const days = Math.floor(diffMs / 86400000);
     const years = Math.floor(days / 365);
     const months = Math.floor((days % 365) / 30);
     const rem = (days % 365) % 30;
     return `${years}y ${months}m ${rem}d`;
-  }, []);
+  }, [room?.anniversary_date]);
 
   if (!inRoom) return <Navigate to="/auth" replace />;
 
@@ -463,7 +465,7 @@ const Dashboard = () => {
             <h3 className="font-heading font-semibold text-[16px] text-[#2D2640] dark:text-[#F8F4FF]">
               <Calendar size={16} className="inline -mt-1 mr-1 text-[#E284BC]" /> Anniversary
             </h3>
-            <span className="text-[11px] text-[#6E628A] dark:text-[#A295B8]">12 April 2026</span>
+            <span className="text-[11px] text-[#6E628A] dark:text-[#A295B8]"> {formatAnniversaryDate(room?.anniversary_date)}</span>
           </div>
           <div
             className="font-logo text-[38px] sm:text-[44px] sj-logo-gradient font-bold leading-none mt-2"

@@ -4,6 +4,7 @@ create table if not exists rooms (
  creator_username text not null,
  partner_username text,
  status text default 'waiting_partner',
+ anniversary_date date,
  updated_at timestamptz default now()
 );
 create table if not exists sejalan_state (
