@@ -21,6 +21,7 @@ import {
   Check,
   Share2,
   UserPlus,
+  Settings2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -73,6 +74,8 @@ const Dashboard = () => {
   const [notesValue, setNotesValue] = useState(state.shared_notes || "");
   const [photoCount, setPhotoCount] = useState(0);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [showAnniversarySettings, setShowAnniversarySettings] = useState(false);
+  const [anniversaryInput, setAnniversaryInput] = useState(room?.anniversary_date || "");
   const notesDebounce = useRef(null);
   const fileImportRef = useRef(null);
 
@@ -86,6 +89,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!isSupabaseReady() || !inviteCode) return;
+
     (async () => {
       try {
         const { count } = await supabase
@@ -222,6 +226,26 @@ const Dashboard = () => {
       setTimeout(() => setCopiedCode(false), 2000);
     } catch {
       toast.error("Gagal copy");
+    }
+  };
+
+  const saveAnniversaryDate = async () => {
+    if (!anniversaryInput) {
+      toast.error("Pilih tanggal terlebih dahulu");
+      return;
+    }
+
+    try {
+      await supabase
+        .from("rooms")
+        .update({ anniversary_date: anniversaryInput })
+        .eq("invite_code", inviteCode);
+
+      toast.success("Tanggal anniversary berhasil disimpan 💖");
+      setShowAnniversarySettings(false);
+      window.location.reload();
+    } catch {
+      toast.error("Gagal menyimpan tanggal");
     }
   };
 
@@ -460,22 +484,61 @@ const Dashboard = () => {
         </button>
 
         {/* Anniversary */}
-        <div className="glass-card p-5 mb-4 sj-animate-up">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-heading font-semibold text-[16px] text-[#2D2640] dark:text-[#F8F4FF]">
-              <Calendar size={16} className="inline -mt-1 mr-1 text-[#E284BC]" /> Anniversary
-            </h3>
-            <span className="text-[11px] text-[#6E628A] dark:text-[#A295B8]"> {formatAnniversaryDate(room?.anniversary_date)}</span>
+        <div className="glass-card p-5 mb-4 sj-animate-up relative overflow-hidden">
+          <div className="flex justify-between items-start mb-2 gap-3">
+            <div>
+              <h3 className="font-heading font-semibold text-[16px] text-[#2D2640] dark:text-[#F8F4FF]">
+                <Calendar size={16} className="inline -mt-1 mr-1 text-[#E284BC]" /> Anniversary
+              </h3>
+              <p className="text-[12px] text-[#6E628A] dark:text-[#A295B8] mt-2">
+                Setiap hari kecil tetap berarti 💞
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowAnniversarySettings((s) => !s)}
+              className="w-10 h-10 rounded-2xl bg-white/50 dark:bg-white/5 border border-white/40 dark:border-white/10 flex items-center justify-center hover:rotate-90 transition-all duration-300"
+            >
+              <Settings2 size={18} className="text-[#E284BC]" />
+            </button>
           </div>
+
+          {showAnniversarySettings && (
+            <div className="mt-4 mb-4 rounded-2xl border border-white/40 dark:border-white/10 bg-white/40 dark:bg-white/5 p-4 backdrop-blur-xl">
+              <label className="block text-[12px] font-medium text-[#6E628A] dark:text-[#C8BDE0] mb-2">
+                Tanggal jadi kalian 💖
+              </label>
+
+              <input
+                type="date"
+                value={anniversaryInput}
+                onChange={(e) => setAnniversaryInput(e.target.value)}
+                className="sj-input"
+              />
+
+              <button
+                type="button"
+                onClick={saveAnniversaryDate}
+                className="sj-cta mt-3 w-full py-3"
+              >
+                Simpan Anniversary
+              </button>
+            </div>
+          )}
+
           <div
-            className="font-logo text-[38px] sm:text-[44px] sj-logo-gradient font-bold leading-none mt-2"
+            className="font-logo text-[38px] sm:text-[44px] sj-logo-gradient font-bold leading-none mt-3"
             data-testid="anniversary-countdown"
           >
             {countdown}
           </div>
-          <p className="text-[12px] text-[#6E628A] dark:text-[#A295B8] mt-2">
-            Setiap hari kecil tetap berarti 💞
-          </p>
+
+          <div className="flex justify-end mt-4">
+            <span className="text-[11px] px-3 py-1 rounded-full bg-white/40 dark:bg-white/5 border border-white/40 dark:border-white/10 text-[#6E628A] dark:text-[#A295B8]">
+              {formatAnniversaryDate(room?.anniversary_date)}
+            </span>
+          </div>
         </div>
 
         {/* Daily question */}
